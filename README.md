@@ -122,7 +122,7 @@ SigninLogs
 
 ---
 
-## This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
+This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
 
 
 ```Python
@@ -180,7 +180,7 @@ After the above script is ran the output will be what is shown below. Allowing m
 
 ### Prevention
 
--Disable user consent to unverified applications in Entra ID settings.
+- Disable user consent to unverified applications in Entra ID settings.
 - Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
 - Enable app consent policies and set trusted publisher restrictions.
 
@@ -198,6 +198,6 @@ Deploy Sentinel analytic rules for:
 ## Containment
 
 - Revoke access tokens using:
-- Revoke-MgUserSignInSession -UserId <UPN>
-- Block sign-ins from malicious app client IDs
-- Remove consent via: Enterprise Applications > Permissions
+-   Revoke-MgUserSignInSession -UserId <UPN>
+-   Block sign-ins from malicious app client IDs
+-   Remove consent via: Enterprise Applications > Permissions
