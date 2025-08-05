@@ -230,11 +230,66 @@ Deploy Sentinel analytic rules for:
 - Apps requesting offline_access, Files.Read.All, etc.
 - Sign-ins from unknown app IDs
 
+Example of rule set: 
+
+Name: Suspicious OAuth App Consent
+Description: Detects when a user grants consent to an unknown third-party OAuth app in Azure AD
+Severity: Medium (or High, if targeting high-risk scopes)
+Tactics: InitialAccess, CredentialAccess, Persistence, DefenseEvasion
+
+```kql
+AuditLogs
+| where OperationName contains "Consent"
+| extend AppName = tostring(TargetResources[0].displayName)
+| where AppName !in ("Microsoft Teams", "SharePoint", "KnownGoodApp1", "Your Internal HR App")
+| extend InitiatingUser = tostring(InitiatedBy.user.userPrincipalName)
+| project TimeGenerated, AppName, InitiatingUser, Result
+```
+---
+
+These would be used to help map the rules for proper alerting when creating the rules:
+
+Consent to unknown app	T1078.004, T1098.001, T1550.003
+Consent with risky scopes	T1528, T1098.001, T1548
+Sign-in from unknown apps	T1071.001, T1528, T1098.001
+
+---
+
+All three rules are now enabled and active in Sentinel: 
+
+<img width="1227" height="528" alt="image" src="https://github.com/user-attachments/assets/f179ec53-61f4-4856-9598-abf0af76b35e" />
+
 ---
 
 ## Containment
 
 Revoke access tokens using:
 - Revoke-MgUserSignInSession -UserId <UPN>
-- Block sign-ins from malicious app client IDs
-- Remove consent via: Enterprise Applications > Permissions
+For example: Revoke Access Tokens (Force Sign-Out) -> Command via Powershell: Revoke-MgUserSignInSession -UserId "victimuser@yourtenant.onmicrosoft.com"
+
+What it does:
+- Forces the user to re-authenticate
+- Invalidates access + refresh tokens
+- Stops token replay attacks for consented apps
+
+---
+
+Block sign-ins from malicious app client IDs
+For example: If you know the App (Client) ID of the malicious application, you can block it using:
+Method 1: Conditional Access Policy
+Go to Entra ID -> Security -> Conditional Access -> Create a new policy:
+        Assignments -> Cloud apps -> Include -> Select apps -> Add the malicious app (by name or ID)
+        Access controls -> Block access
+        Scope it to all users or only targeted users
+
+What it does:
+- This prevents any sign-in via that app, regardless of user.
+
+---
+
+Remove consent via: Enterprise Applications > Permissions
+For example: Azure Portal -> Entra ID -> Enterprise applications -> Filter by “All Applications” -> Click the malicious app -> Go to Permissions
+Then: Select the user(s) under “User Consent” -> Click Remove Permissions
+
+What it does:
+- This removes the consent record, so even if the attacker still has a refresh token, Microsoft will reject token use.
