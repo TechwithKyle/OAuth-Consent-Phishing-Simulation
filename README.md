@@ -217,7 +217,7 @@ T1071.001 Command and Control - Application Layer Protocol
 
 ### Prevention
 
-1) Disable user consent to unverified applications in Entra ID settings.
+# 1) Disable user consent to unverified applications in Entra ID settings.
 - Purpose: Prevents users from granting consent to apps that are:
   - Unverified (not published by Microsoft or a verified partner)
   - Or not explicitly allowed by your tenant policy
@@ -234,7 +234,7 @@ Result:
 
 ---
 
-2) Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
+# 2) Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
 - Purpose: Stops users from consenting to dangerous scopes like Mail.Read, Files.Read.All, offline_access, etc.
 
 Navigate to: 
@@ -247,7 +247,7 @@ Result:
 
 ---
 
-3) Enable app consent policies and set trusted publisher restrictions.
+# 3) Enable app consent policies and set trusted publisher restrictions.
 - Purpose: Granular control over which apps can be approved — and by who.
 
 Navigate to:
@@ -290,9 +290,9 @@ AuditLogs
 
 These would be used to help map the rules for proper alerting when creating the rules:
 
-Consent to unknown app	T1078.004, T1098.001, T1550.003
-Consent with risky scopes	T1528, T1098.001, T1548
-Sign-in from unknown apps	T1071.001, T1528, T1098.001
+- Consent to unknown app: T1078.004, T1098.001, T1550.003
+- Consent with risky scopes: T1528, T1098.001, T1548
+- Sign-in from unknown apps: T1071.001, T1528, T1098.001
 
 ---
 
@@ -304,8 +304,8 @@ All three rules are now enabled and active in Sentinel:
 
 ## Containment
 
-1) Revoke access tokens using:
-- Revoke-MgUserSignInSession -UserId <UPN>
+# 1) Revoke access tokens using:
+Revoke-MgUserSignInSession -UserId <UPN>
 - For example: Revoke Access Tokens (Force Sign-Out) -> Command via Powershell: Revoke-MgUserSignInSession -UserId "victimuser@yourtenant.onmicrosoft.com"
 
 What it does:
@@ -315,7 +315,7 @@ What it does:
 
 ---
 
-2) Block sign-ins from malicious app client IDs
+# 2) Block sign-ins from malicious app client IDs
 - For example: If you know the App (Client) ID of the malicious application, you can block it using:
 Method 1: Conditional Access Policy
 Go to Entra ID -> Security -> Conditional Access -> Create a new policy:
@@ -328,7 +328,7 @@ What it does:
 
 ---
 
-3) Remove consent via: Enterprise Applications > Permissions
+# 3) Remove consent via: Enterprise Applications > Permissions
 - For example: Azure Portal -> Entra ID -> Enterprise applications -> Filter by “All Applications” -> Click the malicious app -> Go to Permissions
 Then: Select the user(s) under “User Consent” -> Click Remove Permissions
 
