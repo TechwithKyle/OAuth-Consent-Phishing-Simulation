@@ -72,15 +72,6 @@ Once the user clicks agree they will be redirected to a page such as this:
 
 4) Access Token Retrieval: Used MSAL in Python to perform device code login.
 
-Prompt requesting to sign into app:
-
-<img width="1202" height="782" alt="image" src="https://github.com/user-attachments/assets/c1844797-29a3-481e-9f2d-5ca6becfe20e" />
-
-Once the user signs into the app they will see a notification such as this:
-
-<img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
-
----
 This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
 
 
@@ -125,6 +116,15 @@ After the above script is ran the output will be what is shown below. Allowing m
 <img width="2040" height="152" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
 
 ---
+After Python script is executed the following prompts will appear 
+
+Prompt requesting to sign into app:
+
+<img width="1202" height="782" alt="image" src="https://github.com/user-attachments/assets/c1844797-29a3-481e-9f2d-5ca6becfe20e" />
+
+The below prompt shows the attacker now has continued access to the end users profile throuh tokens and not passwords: 
+
+<img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
 
 5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
 
