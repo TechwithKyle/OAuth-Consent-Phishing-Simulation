@@ -87,11 +87,11 @@ client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
 
 3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
 
-<img width="966" height="1002" alt="image" src="https://github.com/user-attachments/assets/7eb88ce3-4923-4ac5-bf6a-e3b28ecc5469" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/7eb88ce3-4923-4ac5-bf6a-e3b28ecc5469" />
 
 Once the user clicks agree they will be redirected to a page such as this:
 
-<img width="2034" height="1020" alt="image" src="https://github.com/user-attachments/assets/460c23ea-c15c-4dc7-af68-0417e143e171" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/460c23ea-c15c-4dc7-af68-0417e143e171" />
 
 ---
 
