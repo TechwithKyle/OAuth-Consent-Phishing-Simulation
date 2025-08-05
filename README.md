@@ -3,7 +3,7 @@
 </p>
 
 ---
-## OAuth Consent Phishing Simulation with Microsoft Graph and User.Read Scope
+# OAuth Consent Phishing Simulation with Microsoft Graph and User.Read Scope
 
 ---
 
@@ -56,7 +56,7 @@ No MFA prompt is triggered — because OAuth tokens bypass that.
 
 ## Attack Simulation Steps
 
-1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
+### 1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
 
 <img width="1035" height="419" alt="image" src="https://github.com/user-attachments/assets/191599d8-aa88-40a5-a7ef-d67cabe486bc" />
 
@@ -66,7 +66,7 @@ Redirects:
 
 ---
 
-2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.
+### 2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.
 
 Targeted phishing email like:
 
@@ -85,7 +85,7 @@ client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
 
 ---
 
-3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
+### 3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
 
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/7eb88ce3-4923-4ac5-bf6a-e3b28ecc5469" />
 
@@ -95,7 +95,7 @@ Once the user clicks agree they will be redirected to a page such as this:
 
 ---
 
-4) Access Token Retrieval: Used MSAL in Python to perform device code login.
+### 4) Access Token Retrieval: Used MSAL in Python to perform device code login.
 
 This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
 
@@ -153,7 +153,7 @@ The below prompt shows the attacker now has continued access to the end users pr
 
 ---
 
-5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
+### 5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
 
 - Sample Graph API Output
 
@@ -163,9 +163,9 @@ ID: 5512a2c3-93f5-4e29-baf6-fc58c2710f19
 
 ---
 
-6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
+### 6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
 
-## KQL Detection Queries Used
+#### KQL Detection Queries Used
 
 1. Consent Grant Detection
 
@@ -196,19 +196,19 @@ SigninLogs
 ---
 ## MITRE ATT&CK Mapping
 
-T1078.004 Initial Access - Valid Accounts (Cloud Accounts)
+#### T1078.004 Initial Access - Valid Accounts (Cloud Accounts)
 - The attacker gains access not by stealing passwords, but by tricking a user into consenting to a malicious Azure application. This gives the attacker a valid, delegated session token — essentially making them a “valid user” in the cloud without needing credentials.
 
-T1528 Credential Access - Access Token Manipulation
+#### T1528 Credential Access - Access Token Manipulation
 - After the victim clicks “Accept,” the attacker uses the MSAL Python script to request and manipulate delegated access tokens, allowing them to act on behalf of the user. The attacker may store or replay the refresh_token for persistent access.
 
-T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
+#### T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
 - The attacker exploits Microsoft’s trust model where an approved third-party app is considered legitimate. Because the victim willingly approved access, no alerts are triggered — even though the attacker is now operating under the user’s identity.
 
-T1098.001 Persistence - Cloud Service Permissions
+#### T1098.001 Persistence - Cloud Service Permissions
 - By requesting the offline_access scope during consent, the attacker obtains a refresh_token, enabling long-term access without the user ever logging in again. 
 
-T1071.001 Command and Control - Application Layer Protocol
+#### T1071.001 Command and Control - Application Layer Protocol
 - The attacker uses the Microsoft Graph API (HTTPS-based) as the command-and-control channel to communicate with Microsoft 365 and extract user data. This occurs entirely over legitimate Microsoft infrastructure, making it hard to detect.
 
 ---
@@ -217,7 +217,7 @@ T1071.001 Command and Control - Application Layer Protocol
 
 ### Prevention
 
-### 1) Disable user consent to unverified applications in Entra ID settings.
+#### 1) Disable user consent to unverified applications in Entra ID settings.
 - Purpose: Prevents users from granting consent to apps that are:
   - Unverified (not published by Microsoft or a verified partner)
   - Or not explicitly allowed by your tenant policy
@@ -234,7 +234,7 @@ Result:
 
 ---
 
-### 2) Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
+#### 2) Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
 - Purpose: Stops users from consenting to dangerous scopes like Mail.Read, Files.Read.All, offline_access, etc.
 
 Navigate to: 
@@ -247,7 +247,7 @@ Result:
 
 ---
 
-### 3) Enable app consent policies and set trusted publisher restrictions.
+#### 3) Enable app consent policies and set trusted publisher restrictions.
 - Purpose: Granular control over which apps can be approved — and by who.
 
 Navigate to:
@@ -304,7 +304,7 @@ All three rules are now enabled and active in Sentinel:
 
 ## Containment
 
-### 1) Revoke access tokens using:
+#### 1) Revoke access tokens using:
 Revoke-MgUserSignInSession -UserId <UPN>
 - For example: Revoke Access Tokens (Force Sign-Out) -> Command via Powershell: Revoke-MgUserSignInSession -UserId "victimuser@yourtenant.onmicrosoft.com"
 
@@ -315,7 +315,7 @@ What it does:
 
 ---
 
-### 2) Block sign-ins from malicious app client IDs
+#### 2) Block sign-ins from malicious app client IDs
 - For example: If you know the App (Client) ID of the malicious application, you can block it using:
 Method 1: Conditional Access Policy
 Go to Entra ID -> Security -> Conditional Access -> Create a new policy:
@@ -328,7 +328,7 @@ What it does:
 
 ---
 
-### 3) Remove consent via: Enterprise Applications > Permissions
+#### 3) Remove consent via: Enterprise Applications > Permissions
 - For example: Azure Portal -> Entra ID -> Enterprise applications -> Filter by “All Applications” -> Click the malicious app -> Go to Permissions
 Then: Select the user(s) under “User Consent” -> Click Remove Permissions
 
