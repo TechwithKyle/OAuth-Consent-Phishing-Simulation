@@ -196,16 +196,20 @@ SigninLogs
 ---
 ## MITRE ATT&CK Mapping
 
-- T1078.004 Initial Access - Valid Accounts (Cloud Accounts)
--   The attacker gains access not by stealing passwords, but by tricking a user into consenting to a malicious Azure application. This gives the attacker a valid, delegated session token — essentially making them a “valid user” in the cloud without needing credentials.
-- T1528 Credential Access - Access Token Manipulation
--   After the victim clicks “Accept,” the attacker uses the MSAL Python script to request and manipulate delegated access tokens, allowing them to act on behalf of the user. The attacker may store or replay the refresh_token for persistent access.
-- T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
-The attacker exploits Microsoft’s trust model where an approved third-party app is considered legitimate. Because the victim willingly approved access, no alerts are triggered — even though the attacker is now operating under the user’s identity.
-- T1098.001 Persistence - Cloud Service Permissions
-By requesting the offline_access scope during consent, the attacker obtains a refresh_token, enabling long-term access without the user ever logging in again. 
-- T1071.001 Command and Control - Application Layer Protocol
-The attacker uses the Microsoft Graph API (HTTPS-based) as the command-and-control channel to communicate with Microsoft 365 and extract user data. This occurs entirely over legitimate Microsoft infrastructure, making it hard to detect.
+T1078.004 Initial Access - Valid Accounts (Cloud Accounts)
+- The attacker gains access not by stealing passwords, but by tricking a user into consenting to a malicious Azure application. This gives the attacker a valid, delegated session token — essentially making them a “valid user” in the cloud without needing credentials.
+
+T1528 Credential Access - Access Token Manipulation
+- After the victim clicks “Accept,” the attacker uses the MSAL Python script to request and manipulate delegated access tokens, allowing them to act on behalf of the user. The attacker may store or replay the refresh_token for persistent access.
+
+T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
+- The attacker exploits Microsoft’s trust model where an approved third-party app is considered legitimate. Because the victim willingly approved access, no alerts are triggered — even though the attacker is now operating under the user’s identity.
+
+T1098.001 Persistence - Cloud Service Permissions
+- By requesting the offline_access scope during consent, the attacker obtains a refresh_token, enabling long-term access without the user ever logging in again. 
+
+T1071.001 Command and Control - Application Layer Protocol
+- The attacker uses the Microsoft Graph API (HTTPS-based) as the command-and-control channel to communicate with Microsoft 365 and extract user data. This occurs entirely over legitimate Microsoft infrastructure, making it hard to detect.
 
 ---
 
