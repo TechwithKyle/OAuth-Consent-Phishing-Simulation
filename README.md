@@ -34,6 +34,26 @@ This project demonstrates an OAuth consent phishing attack simulation using a mu
 
 ---
 
+## Why this is dangerous:
+
+- Nothing looks “suspicious” at first
+- Defender doesn’t flag login anomalies (the user consented)
+- No password spray or brute-force events
+- Only deep log review or a SIEM with consent detection rules (such as my KQL queries below) might catch it
+
+---
+
+## Attacker Accesses Data (Stealthily):
+
+The attacker uses Mail.Read or Files.Read.All to:
+- Search inboxes for invoices, passwords, business contacts
+- Download sensitive files from OneDrive
+- Persist access silently for months using the refresh token
+
+No MFA prompt is triggered — because OAuth tokens bypass that.
+
+---
+
 ## Attack Simulation Steps
 
 1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
@@ -46,7 +66,14 @@ Redirects:
 
 ---
 
-2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.):
+2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.
+
+Targeted phishing email like:
+
+    “Your Outlook session expired. Reauthorize access now.”
+    Click here to continue working securely → [OAuth link]
+
+0Auth link:
 
 https://login.microsoftonline.com/common/oauth2/v2.0/authorize?
 client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
@@ -124,6 +151,8 @@ The below prompt shows the attacker now has continued access to the end users pr
 
 <img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
 
+---
+
 5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
 
 - Sample Graph API Output
@@ -168,10 +197,15 @@ SigninLogs
 ## MITRE ATT&CK Mapping
 
 - T1078.004 Initial Access - Valid Accounts (Cloud Accounts
+The attacker gains access not by stealing passwords, but by tricking a user into consenting to a malicious Azure application. This gives the attacker a valid, delegated session token — essentially making them a “valid user” in the cloud without needing credentials.
 - T1528 Credential Access - Access Token Manipulation
+After the victim clicks “Accept,” the attacker uses the MSAL Python script to request and manipulate delegated access tokens, allowing them to act on behalf of the user. The attacker may store or replay the refresh_token for persistent access.
 - T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
+The attacker exploits Microsoft’s trust model where an approved third-party app is considered legitimate. Because the victim willingly approved access, no alerts are triggered — even though the attacker is now operating under the user’s identity.
 - T1098.001 Persistence - Cloud Service Permissions
+By requesting the offline_access scope during consent, the attacker obtains a refresh_token, enabling long-term access without the user ever logging in again. 
 - T1071.001 Command and Control - Application Layer Protocol
+The attacker uses the Microsoft Graph API (HTTPS-based) as the command-and-control channel to communicate with Microsoft 365 and extract user data. This occurs entirely over legitimate Microsoft infrastructure, making it hard to detect.
 
 ---
 
