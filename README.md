@@ -56,7 +56,7 @@ No MFA prompt is triggered — because OAuth tokens bypass that.
 
 ## Attack Simulation Steps
 
-### 1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
+#### 1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
 
 <img width="1035" height="419" alt="image" src="https://github.com/user-attachments/assets/191599d8-aa88-40a5-a7ef-d67cabe486bc" />
 
@@ -66,7 +66,7 @@ Redirects:
 
 ---
 
-### 2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.
+#### 2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.
 
 Targeted phishing email like:
 
@@ -85,7 +85,7 @@ client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
 
 ---
 
-### 3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
+#### 3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
 
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/7eb88ce3-4923-4ac5-bf6a-e3b28ecc5469" />
 
@@ -95,7 +95,7 @@ Once the user clicks agree they will be redirected to a page such as this:
 
 ---
 
-### 4) Access Token Retrieval: Used MSAL in Python to perform device code login.
+#### 4) Access Token Retrieval: Used MSAL in Python to perform device code login.
 
 This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
 
@@ -153,7 +153,7 @@ The below prompt shows the attacker now has continued access to the end users pr
 
 ---
 
-### 5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
+#### 5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
 
 - Sample Graph API Output
 
@@ -163,7 +163,7 @@ ID: 5512a2c3-93f5-4e29-baf6-fc58c2710f19
 
 ---
 
-### 6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
+#### 6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
 
 #### KQL Detection Queries Used
 
