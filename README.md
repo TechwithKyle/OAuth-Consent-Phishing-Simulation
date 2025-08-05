@@ -3,11 +3,11 @@
 </p>
 
 ---
-# OAuth Consent Phishing Simulation with Microsoft Graph and User.Read Scope
+## OAuth Consent Phishing Simulation with Microsoft Graph and User.Read Scope
 
 ---
 
-# Platforms and Languages Leveraged
+## Platforms and Languages Leveraged
 
 - Windows 10 Virtual Machines (Microsoft Azure)
 - Microsoft Sentinel
