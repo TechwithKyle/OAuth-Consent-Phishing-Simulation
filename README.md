@@ -38,17 +38,17 @@ This project demonstrates an OAuth consent phishing attack simulation using a mu
 
 ## Attack Simulation Steps
 
-App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
+1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
 
-Generated Consent URL: Shared phishing-style URL to trigger consent screen.
+2) Generated Consent URL: Shared phishing-style URL to trigger consent screen.
 
-Consent: User accepted the app’s request for User.Read and offline_access scopes.
+3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
 
-Access Token Retrieval: Used MSAL in Python to perform device code login.
+4) Access Token Retrieval: Used MSAL in Python to perform device code login.
 
-API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
+5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
 
-Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
+6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
 
 ---
 
@@ -91,31 +91,11 @@ SigninLogs
 ---
 ## MITRE ATT&CK Mapping
 
-T1078.004
-
-Credential Access
-
-Access Token Manipulation
-
-T1528
-
-Defense Evasion
-
-Exploit Authorization Logic Flaw
-
-T1550.003
-
-Persistence
-
-Cloud Service Permissions
-
-T1098.001
-
-Command and Control
-
-Application Layer Protocol
-
-T1071.001
+- T1078.004 Initial Access - Valid Accounts (Cloud Accounts
+- T1528 Credential Access - Access Token Manipulation
+- T1550.003 Defense Evasion - Exploit Authorization Logic Flaw
+- T1098.001 Persistence - Cloud Service Permissions
+- T1071.001 Command and Control - Application Layer Protocol
 
 ---
 
