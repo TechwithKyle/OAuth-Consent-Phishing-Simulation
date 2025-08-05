@@ -149,7 +149,7 @@ Prompt requesting to sign into app:
 
 The below prompt shows the attacker now has continued access to the end users profile throuh tokens and not passwords: 
 
-<img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/321c916f-62bb-4768-9f38-7d7e8ae956ab" />
 
 ---
 
