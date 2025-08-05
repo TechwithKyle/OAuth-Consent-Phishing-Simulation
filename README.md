@@ -240,8 +240,8 @@ Result:
 
 Navigate to: 
 - Still in Microsoft Entra -> Identity -> Applications -> User settings -> Click Manage app consent requests -> Set “Users can request admin consent to apps they are unable to consent to” -> Yes -> Save the policy
-Then go to:
-- Identity → Applications -> App consent policies -> Create a new policy that allows only low-risk scopes (e.g., User.Read) to be approved by users, and requires admin approval for all others 
+  - Then go to:
+    - Identity → Applications -> App consent policies -> Create a new policy that allows only low-risk scopes (e.g., User.Read) to be approved by users, and requires admin approval for all others 
 
 Result:
 - When a user tries to approve an app with risky scopes, they’re blocked — and the admin receives a consent request.
