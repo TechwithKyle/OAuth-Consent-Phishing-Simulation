@@ -9,12 +9,12 @@
 
 # Platforms and Languages Leveraged
 
-    Windows 10 Virtual Machines (Microsoft Azure)
-    Microsoft Sentinel
-    EDR Platform: Microsoft Defender for Endpoint
-    Kusto Query Language (KQL)
-    App registered in Azure Active Directory (multi-tenant)
-    Python and MSAL used for token acquisition
+- Windows 10 Virtual Machines (Microsoft Azure)
+- Microsoft Sentinel
+- EDR Platform: Microsoft Defender for Endpoint
+- Kusto Query Language (KQL)
+- App registered in Azure Active Directory (multi-tenant)
+- Python and MSAL used for token acquisition
     
 ---
 
