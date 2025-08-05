@@ -26,7 +26,7 @@ This project demonstrates an OAuth consent phishing attack simulation using a mu
 
 ## Objective
 
-### To simulate a realistic cloud-based attack path where a user unknowingly grants delegated access to a rogue application, allowing an attacker to:
+To simulate a realistic cloud-based attack path where a user unknowingly grants delegated access to a rogue application, allowing an attacker to:
 
 - Read user profile information
 - Persist access using refresh tokens
