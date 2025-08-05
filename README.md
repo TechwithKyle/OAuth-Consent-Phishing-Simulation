@@ -81,47 +81,6 @@ Once the user signs into the app they will see a notification such as this:
 <img width="2466" height="1102" alt="image" src="https://github.com/user-attachments/assets/534412a3-a853-4678-b157-d16ce920a504" />
 
 ---
-
-5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
-
-- Sample Graph API Output
-
-Display Name: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de
-UPN: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de@lognpacific.com
-ID: 5512a2c3-93f5-4e29-baf6-fc58c2710f19
-
-6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
-
-## KQL Detection Queries Used
-
-1. Consent Grant Detection
-
-**Query used to locate events:**
-
-```kql
-AuditLogs
-| where OperationName in ("Consent to application", "Add delegated permission grant")
-| extend AppName = tostring(TargetResources[0].displayName)
-| where AppName has "Phish" or AppName has "PhishMailReader" 
-| project TimeGenerated, AppName, InitiatedBy, ActivityDisplayName, Result
-```
-
-<img width="1730" height="492" alt="image" src="https://github.com/user-attachments/assets/d6f27f8c-3d3a-42d5-ba6e-518f3ae0ec42" />
-
----
-
-2. App Sign-in Usage
-
-```kql
-SigninLogs
-| where AppDisplayName has "Phish" or AppDisplayName has "PhishMailReader"
-| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, ClientAppUsed
-```
-
-<img width="1734" height="756" alt="image" src="https://github.com/user-attachments/assets/5e6b6284-6d64-47c0-ba04-95f5039398af" />
-
----
-
 This Python script represents post-consent activity performed by an attacker. The victim only sees the Microsoft OAuth consent prompt in their browser. No scripts or malware are needed for this attack — just social engineering and permission abuse.
 
 
@@ -164,6 +123,48 @@ else:
 After the above script is ran the output will be what is shown below. Allowing me access to the end user: 
 
 <img width="2040" height="152" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
+
+---
+
+5) API Call: Successfully queried Microsoft Graph API for the signed-in user's profile data.
+
+- Sample Graph API Output
+
+Display Name: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de
+UPN: e3cf69dbacbbce89aa76d8f5acef15ea51a051580fa22288481eedda249514de@lognpacific.com
+ID: 5512a2c3-93f5-4e29-baf6-fc58c2710f19
+
+---
+
+6) Log Collection: Verified consent grant and app sign-ins using KQL queries in Sentinel.
+
+## KQL Detection Queries Used
+
+1. Consent Grant Detection
+
+**Query used to locate events:**
+
+```kql
+AuditLogs
+| where OperationName in ("Consent to application", "Add delegated permission grant")
+| extend AppName = tostring(TargetResources[0].displayName)
+| where AppName has "Phish" or AppName has "PhishMailReader" 
+| project TimeGenerated, AppName, InitiatedBy, ActivityDisplayName, Result
+```
+
+<img width="1730" height="492" alt="image" src="https://github.com/user-attachments/assets/d6f27f8c-3d3a-42d5-ba6e-518f3ae0ec42" />
+
+---
+
+2. App Sign-in Usage
+
+```kql
+SigninLogs
+| where AppDisplayName has "Phish" or AppDisplayName has "PhishMailReader"
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, ClientAppUsed
+```
+
+<img width="1734" height="756" alt="image" src="https://github.com/user-attachments/assets/5e6b6284-6d64-47c0-ba04-95f5039398af" />
 
 ---
 ## MITRE ATT&CK Mapping
