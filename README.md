@@ -48,7 +48,7 @@ Redirects:
 
 ---
 
-2) Generated Consent URL: Shared phishing-style URL to trigger consent screen.
+2) Generated Consent URL: Shared phishing-style URL to trigger consent screen. This link can be shared via email, any chat platform, etc.):
 
 https://login.microsoftonline.com/common/oauth2/v2.0/authorize?
 client_id=<348ed938-8c24-4cb4-8dff-1b5ed4e31778>
@@ -197,7 +197,7 @@ Deploy Sentinel analytic rules for:
 
 ## Containment
 
-- Revoke access tokens using:
--   Revoke-MgUserSignInSession -UserId <UPN>
--   Block sign-ins from malicious app client IDs
--   Remove consent via: Enterprise Applications > Permissions
+Revoke access tokens using:
+- Revoke-MgUserSignInSession -UserId <UPN>
+- Block sign-ins from malicious app client IDs
+- Remove consent via: Enterprise Applications > Permissions
