@@ -138,14 +138,14 @@ else:
 
 After the above script is ran the output will be what is shown below. Allowing me access to the end user: 
 
-<img width="2040" height="152" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
 
 ---
 After Python script is executed the following prompts will appear 
 
 Prompt requesting to sign into app:
 
-<img width="1202" height="782" alt="image" src="https://github.com/user-attachments/assets/c1844797-29a3-481e-9f2d-5ca6becfe20e" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/c1844797-29a3-481e-9f2d-5ca6becfe20e" />
 
 The below prompt shows the attacker now has continued access to the end users profile throuh tokens and not passwords: 
 
