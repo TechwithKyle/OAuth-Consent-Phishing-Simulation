@@ -45,7 +45,7 @@ To simulate a realistic cloud-based attack path where a user unknowingly grants 
 
 ## Attacker Accesses Data (Stealthily):
 
-The attacker uses Mail.Read or Files.Read.All to:
+The attacker uses User.Read or Files.Read.All to:
 - Search inboxes for invoices, passwords, business contacts
 - Download sensitive files from OneDrive
 - Persist access silently for months using the refresh token
