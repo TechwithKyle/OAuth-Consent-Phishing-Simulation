@@ -306,7 +306,7 @@ All three rules are now enabled and active in Sentinel:
 
 1) Revoke access tokens using:
 - Revoke-MgUserSignInSession -UserId <UPN>
-For example: Revoke Access Tokens (Force Sign-Out) -> Command via Powershell: Revoke-MgUserSignInSession -UserId "victimuser@yourtenant.onmicrosoft.com"
+- For example: Revoke Access Tokens (Force Sign-Out) -> Command via Powershell: Revoke-MgUserSignInSession -UserId "victimuser@yourtenant.onmicrosoft.com"
 
 What it does:
 - Forces the user to re-authenticate
@@ -316,7 +316,7 @@ What it does:
 ---
 
 2) Block sign-ins from malicious app client IDs
-For example: If you know the App (Client) ID of the malicious application, you can block it using:
+- For example: If you know the App (Client) ID of the malicious application, you can block it using:
 Method 1: Conditional Access Policy
 Go to Entra ID -> Security -> Conditional Access -> Create a new policy:
         Assignments -> Cloud apps -> Include -> Select apps -> Add the malicious app (by name or ID)
@@ -329,7 +329,7 @@ What it does:
 ---
 
 3) Remove consent via: Enterprise Applications > Permissions
-For example: Azure Portal -> Entra ID -> Enterprise applications -> Filter by “All Applications” -> Click the malicious app -> Go to Permissions
+- For example: Azure Portal -> Entra ID -> Enterprise applications -> Filter by “All Applications” -> Click the malicious app -> Go to Permissions
 Then: Select the user(s) under “User Consent” -> Click Remove Permissions
 
 What it does:
