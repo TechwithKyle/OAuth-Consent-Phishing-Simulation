@@ -217,10 +217,51 @@ T1071.001 Command and Control - Application Layer Protocol
 
 ### Prevention
 
-- Disable user consent to unverified applications in Entra ID settings.
-- Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
-- Enable app consent policies and set trusted publisher restrictions.
+Disable user consent to unverified applications in Entra ID settings.
+- Purpose: Prevents users from granting consent to apps that are:
+  - Unverified (not published by Microsoft or a verified partner)
+  - Or not explicitly allowed by your tenant policy
 
+Navigate to:
+- Identity → Applications → User settings
+  - Under User consent for applications, choose:
+    - Do not allow user consent
+- Or optionally choose:
+    - Allow user consent for apps from verified publishers, for selected permissions
+ 
+Result:
+- Users cannot grant OAuth access to unknown/unverified apps — even if tricked.
+
+---
+
+Require admin approval for apps requesting high-impact scopes (Mail.Read, Files.Read.All).
+- Purpose: Stops users from consenting to dangerous scopes like Mail.Read, Files.Read.All, offline_access, etc.
+
+Navigate to: 
+- Still in Microsoft Entra -> Identity -> Applications -> User settings -> Click Manage app consent requests -> Set “Users can request admin consent to apps they are unable to consent to” -> Yes -> Save the policy
+Then go to:
+- Identity → Applications -> App consent policies -> Create a new policy that allows only low-risk scopes (e.g., User.Read) to be approved by users, and requires admin approval for all others 
+
+Result:
+- When a user tries to approve an app with risky scopes, they’re blocked — and the admin receives a consent request.
+
+---
+
+Enable app consent policies and set trusted publisher restrictions.
+- Purpose: Granular control over which apps can be approved — and by who.
+
+Navigate to:
+- Microsoft Entra -> Identity -> Applications -> App consent policies:
+  - Create a policy named: TrustedPublisherOnly-LowRiskAccess
+  - Define the rules: Only apps from verified publishers (or your own)
+  - Only allow these permissions without admin approval: User.Read, openid, profile
+- Block others or require admin review
+- Assign the policy to All Users or specific security groups
+
+Result:
+- Consent is allowed only from apps you trust
+- You reduce the risk of consent phishing drastically
+  
 ---
 
 ## Detection
