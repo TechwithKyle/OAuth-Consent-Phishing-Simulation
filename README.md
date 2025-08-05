@@ -194,7 +194,7 @@ SigninLogs
 <img width="1734" height="756" alt="image" src="https://github.com/user-attachments/assets/5e6b6284-6d64-47c0-ba04-95f5039398af" />
 
 ---
-## MITRE ATT&CK Mapping
+### MITRE ATT&CK Mapping
 
 #### T1078.004 Initial Access - Valid Accounts (Cloud Accounts)
 - The attacker gains access not by stealing passwords, but by tricking a user into consenting to a malicious Azure application. This gives the attacker a valid, delegated session token — essentially making them a “valid user” in the cloud without needing credentials.
@@ -213,7 +213,7 @@ SigninLogs
 
 ---
 
-## Recommendations
+### Recommendations
 
 ### Prevention
 
@@ -264,7 +264,7 @@ Result:
   
 ---
 
-## Detection
+### Detection
 
 Deploy Sentinel analytic rules for:
 - New delegated consent events
@@ -302,7 +302,7 @@ All three rules are now enabled and active in Sentinel:
 
 ---
 
-## Containment
+### Containment
 
 #### 1) Revoke access tokens using:
 Revoke-MgUserSignInSession -UserId <UPN>
