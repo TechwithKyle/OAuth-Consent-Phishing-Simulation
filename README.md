@@ -138,7 +138,7 @@ else:
 
 After the above script is ran the output will be what is shown below. Allowing me access to the end user: 
 
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/c1891655-fe94-4308-84ac-acc694ff405d" /> 
 
 ---
 After Python script is executed the following prompts will appear 
